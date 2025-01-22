@@ -25,7 +25,7 @@ enum layer_names {
 enum custom_keycodes {
     ALL_U = SAFE_RANGE,
     U_ARG, J_UST, I_TS, G_GN, F_FF,
-    TOGG_RA
+    TOGG_RA, WAVE
 };
 
 #define RSTGPU LGUI(LCTL(LSFT(KC_B)))
@@ -42,9 +42,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                    ),
     [_FN] = LAYOUT_fullsize_ansi(
         KC_TRNS,    KC_BRID, KC_BRIU, KC_TRNS, KC_TRNS,  KC_MSTP, KC_MPRV, KC_MPLY, KC_MNXT,  KC_WBAK, KC_WFWD, KC_TRNS, KC_TRNS,   KC_F13, KC_F14, KC_F15,
-        KC_ESC,   DM_PLY1,DM_PLY2,KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,KC_MUTE,KC_VOLD,KC_VOLU,KC_EJCT,          KC_F16, KC_F17, KC_F18,     KC_F22,   KC_F23,   KC_F24,  KC_TRNS,
+        WAVE,     DM_PLY1,DM_PLY2,KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,KC_MUTE,KC_VOLD,KC_VOLU,KC_EJCT,          KC_F16, KC_F17, KC_F18,     KC_F22,   KC_F23,   KC_F24,  KC_TRNS,
         KC_TRNS,    KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,U_ARG,KC_TRNS,I_TS,KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,             KC_F19, KC_F20, KC_F21,     KC_TRNS, KC_TRNS,  KC_TRNS,  KC_TRNS,
-        QK_LOCK,      ALL_U,KC_TRNS,   F_FF,KC_TRNS,G_GN,KC_TRNS,J_UST, KC_TRNS,  KC_TRNS,  KC_TRNS, KC_TRNS, KC_TRNS,                                          KC_TRNS, KC_TRNS,  KC_TRNS,
+        QK_LOCK,      ALL_U,KC_TRNS, KC_TRNS,  F_FF,G_GN,KC_TRNS,J_UST, KC_TRNS,  KC_TRNS,  KC_TRNS, KC_TRNS, KC_TRNS,                                          KC_TRNS, KC_TRNS,  KC_TRNS,
         KC_TRNS,         KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,KC_TRNS, KC_TRNS,  KC_TRNS,       KC_TRNS,               DM_REC1, DM_REC2,  DM_RSTP,  KC_TRNS,
         KC_TRNS,  RSTGPU, KC_TRNS,                 MO(_CT),                       KC_APP, TOGG_RA, KC_TRNS, NK_TOGG,            KC_TRNS, KC_TRNS, KC_TRNS,        KC_TRNS,      KC_TRNS
                                  ),
@@ -64,6 +64,15 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       SEND_STRING(str); \
     } else { } break
 
+// Initial delay before the first repeat.
+static const uint8_t INIT_DELAY_MS = 250;
+// This array customizes the rate at which the Backspace key
+// repeats. The delay after the ith repeat is REP_DELAY_MS[i].
+// Values must be between 1 and 255.
+static const uint8_t REP_DELAY_MS[] PROGMEM = {
+  99, 79, 65, 57, 49, 43, 40, 35, 33, 30, 28, 26, 25, 23, 22, 20,
+  20, 19, 18, 17, 16, 15, 15, 14, 14, 13, 13, 12, 12, 11, 11, 10};
+
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   switch (keycode) {
     DEF_MACRO_KEY(ALL_U,"allyourbasearebelongtous");
@@ -82,6 +91,66 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       return false;
     }
     break;
+  case KC_BSPC: {  // Key with exponential repeating.
+    static deferred_token token = INVALID_DEFERRED_TOKEN;
+    static uint8_t rep_count = 0;
+
+    if (!record->event.pressed) {  // Backspace released: stop repeating.
+      cancel_deferred_exec(token);
+      token = INVALID_DEFERRED_TOKEN;
+    } else if (!token) {  // Backspace pressed: start repeating.
+      tap_code(KC_BSPC);  // Initial tap of Backspace key.
+      rep_count = 0;
+
+      uint32_t bspc_callback(uint32_t trigger_time, void* cb_arg) {
+        tap_code(KC_BSPC);
+        if (rep_count < sizeof(REP_DELAY_MS)) { ++rep_count; }
+        return pgm_read_byte(REP_DELAY_MS - 1 + rep_count);
+      }
+
+      token = defer_exec(INIT_DELAY_MS, bspc_callback, NULL);
+    }
+  } return false;  // Skip normal handling.
+  case KC_ENT: {  // Enter Key with exponential repeating.
+    static deferred_token token = INVALID_DEFERRED_TOKEN;
+    static uint8_t rep_count = 0;
+
+    if (!record->event.pressed) {
+      cancel_deferred_exec(token);
+      token = INVALID_DEFERRED_TOKEN;
+    } else if (!token) {
+      tap_code(KC_ENT);
+      rep_count = 0;
+
+      uint32_t entr_callback(uint32_t trigger_time, void* cb_arg) {
+        tap_code(KC_ENT);
+        if (rep_count < sizeof(REP_DELAY_MS)) { ++rep_count; }
+        return pgm_read_byte(REP_DELAY_MS - 1 + rep_count);
+      }
+
+      token = defer_exec(INIT_DELAY_MS, entr_callback, NULL);
+    }
+  } return false;  // Skip normal handling.
+  case WAVE: {  // Types ~=~=~=~=~=~...
+    static deferred_token token = INVALID_DEFERRED_TOKEN;
+    static uint8_t phase = 0;
+
+    if (!record->event.pressed) {  // On release.
+      cancel_deferred_exec(token);
+      token = INVALID_DEFERRED_TOKEN;
+      // Ensure the pattern always ends on a "~".
+      if ((phase & 1) == 0) { tap_code16(KC_TILD); }
+      phase = 0;
+    } else if (!token) {  // On press.
+
+      uint32_t wave_callback(uint32_t trigger_time, void* cb_arg) {
+        tap_code16((++phase & 1) ? KC_TILD : KC_EQL);
+        return 16;  // Call the callback every 16 ms.
+      }
+
+      token = defer_exec(1, wave_callback, NULL);
+    }
+  } return false;
   }
   return true;
 }

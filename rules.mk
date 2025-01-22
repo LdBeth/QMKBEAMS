@@ -34,6 +34,7 @@ LTO_ENABLE = yes
 # COMBO_ENABLE = no
 DYNAMIC_MACRO_ENABLE = yes
 KEY_LOCK_ENABLE = yes
+DEFERRED_EXEC_ENABLE = yes
 
 CUSTOM_MATRIX=lite
 SRC += matrix.c util_comm.c
