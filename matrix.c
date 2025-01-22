@@ -21,8 +21,6 @@
 #include <eeconfig.h>
 #endif
 
-extern const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS];
-
 /* Notes on Expansion Header:
 
 Pinout:
