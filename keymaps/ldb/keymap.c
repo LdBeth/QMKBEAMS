@@ -24,7 +24,7 @@ enum layer_names {
 // Defines the keycodes used by our macros in process_record_user
 enum custom_keycodes {
     ALL_U = SAFE_RANGE,
-    U_ARG, J_UST, I_TS, G_GN,
+    U_ARG, J_UST, I_TS, G_GN, F_FF,
     TOGG_RA
 };
 
@@ -44,7 +44,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_TRNS,    KC_BRID, KC_BRIU, KC_TRNS, KC_TRNS,  KC_MSTP, KC_MPRV, KC_MPLY, KC_MNXT,  KC_WBAK, KC_WFWD, KC_TRNS, KC_TRNS,   KC_F13, KC_F14, KC_F15,
         KC_ESC,   DM_PLY1,DM_PLY2,KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,KC_MUTE,KC_VOLD,KC_VOLU,KC_EJCT,          KC_F16, KC_F17, KC_F18,     KC_F22,   KC_F23,   KC_F24,  KC_TRNS,
         KC_TRNS,    KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,U_ARG,KC_TRNS,I_TS,KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,             KC_F19, KC_F20, KC_F21,     KC_TRNS, KC_TRNS,  KC_TRNS,  KC_TRNS,
-        QK_LOCK,      ALL_U,KC_TRNS,KC_TRNS,KC_TRNS,G_GN,KC_TRNS,J_UST, KC_TRNS,  KC_TRNS,  KC_TRNS, KC_TRNS, KC_TRNS,                                          KC_TRNS, KC_TRNS,  KC_TRNS,
+        QK_LOCK,      ALL_U,KC_TRNS,   F_FF,KC_TRNS,G_GN,KC_TRNS,J_UST, KC_TRNS,  KC_TRNS,  KC_TRNS, KC_TRNS, KC_TRNS,                                          KC_TRNS, KC_TRNS,  KC_TRNS,
         KC_TRNS,         KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,KC_TRNS, KC_TRNS,  KC_TRNS,       KC_TRNS,               DM_REC1, DM_REC2,  DM_RSTP,  KC_TRNS,
         KC_TRNS,  RSTGPU, KC_TRNS,                 MO(_CT),                       KC_APP, TOGG_RA, KC_TRNS, NK_TOGG,            KC_TRNS, KC_TRNS, KC_TRNS,        KC_TRNS,      KC_TRNS
                                  ),
@@ -71,6 +71,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     DEF_MACRO_KEY(J_UST,"justaccordingtokeikaku");
     DEF_MACRO_KEY(G_GN,"goodnightsweetprince");
     DEF_MACRO_KEY(I_TS,"itsmorelikelythanyouthink");
+    DEF_MACRO_KEY(F_FF,"pressftopayrespects");
   case TOGG_RA:
     if (record->event.pressed) {
       keymap_config.raw = eeconfig_read_keymap();

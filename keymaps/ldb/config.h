@@ -20,3 +20,4 @@
 #define DYNAMIC_MACRO_NO_NESTING
 // higher would brick controller
 #define DYNAMIC_MACRO_SIZE 32
+#define FORCE_NKRO
