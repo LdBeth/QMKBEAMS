@@ -26,8 +26,6 @@
 extern "C" {
 #endif
 
-bool socd_cleaner_enabled = false;
-
 static void update_key(uint8_t keycode, bool press) {
   if (press) {
     add_key(keycode);
@@ -38,7 +36,7 @@ static void update_key(uint8_t keycode, bool press) {
 
 bool process_socd_cleaner(uint16_t keycode, keyrecord_t* record,
                           socd_cleaner_t* state) {
-  if (!(socd_cleaner_enabled && state->resolution &&
+  if (!(state->resolution &&
         (keycode == state->keys[0] || keycode == state->keys[1]))) {
     return true;  // Quick return when disabled or on unrelated events.
   }

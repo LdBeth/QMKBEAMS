@@ -67,7 +67,7 @@ socd_cleaner_t socd_h = {{KC_A, KC_D}, SOCD_CLEANER_LAST};
 #define DEF_MACRO_KEY(code, str) case code: \
     if (record->event.pressed) { \
       SEND_STRING(str); \
-    } else { } break
+    }; break
 
 // Initial delay before the first repeat.
 #define INIT_DELAY_MS 300
@@ -96,10 +96,13 @@ static const uint8_t REP_DELAY_MS[] PROGMEM = {
     }                                                                   \
   } return false
 
+static bool socd_cleaner_enabled = false;
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-  if (!process_socd_cleaner(keycode, record, &socd_v)) { return false; }
-  if (!process_socd_cleaner(keycode, record, &socd_h)) { return false; }
+  if (socd_cleaner_enabled) {
+    if (!process_socd_cleaner(keycode, record, &socd_v)) return false;
+    if (!process_socd_cleaner(keycode, record, &socd_h)) return false;
+  }
 
   switch (keycode) {
     DEF_SPEED_KEY(KC_BSPC, bspc);
@@ -145,12 +148,12 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     if (record->event.pressed) {
       socd_cleaner_enabled = true;
     }
-    return false;
+    break;
   case SOCDOFF:  // Turn SOCD Cleaner off.
     if (record->event.pressed) {
       socd_cleaner_enabled = false;
     }
-    return false;
+    break;
   }
   return true;
 }
