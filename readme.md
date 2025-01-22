@@ -19,4 +19,4 @@ See the [build environment setup](https://docs.qmk.fm/#/getting_started_build_to
 Enter the bootloader in 2 ways:
 
 * **Physical reset button**: Short the PROG pins on the PCB
-* **Keycode in layout**: Left Shift+Right Shift+B (QMK Command Keycode)
+* **Keycode in layout**: FN+SPC+R

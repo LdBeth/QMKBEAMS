@@ -18,7 +18,7 @@
 // Defines names for use in layer keycodes and the keymap
 enum layer_names {
   _BASE,
-  _FN
+  _FN, _CT
 };
 
 // Defines the keycodes used by our macros in process_record_user
@@ -39,15 +39,24 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_CAPS,      KC_A,  KC_S,  KC_D,  KC_F,  KC_G,  KC_H,  KC_J,  KC_K,  KC_L,  KC_SCLN, KC_QUOT,       KC_ENT,                                  KC_P4,   KC_P5,   KC_P6,
         KC_LSFT,         KC_Z,  KC_X,  KC_C,  KC_V,  KC_B,  KC_N,  KC_M,  KC_COMM, KC_DOT, KC_SLSH,         KC_RSFT,             KC_UP,               KC_P1,   KC_P2,   KC_P3,   KC_PENT,
         KC_LCTL,  KC_LGUI, KC_LALT,                KC_SPC,                       KC_RGUI, KC_RALT, MO(_FN), KC_RCTL,    KC_LEFT, KC_DOWN, KC_RGHT,         KC_P0,       KC_PDOT
-                         ),
+                                   ),
     [_FN] = LAYOUT_fullsize_ansi(
         KC_TRNS,    KC_BRID, KC_BRIU, KC_TRNS, KC_TRNS,  KC_MSTP, KC_MPRV, KC_MPLY, KC_MNXT,  KC_WBAK, KC_WFWD, KC_TRNS, KC_TRNS,   KC_F13, KC_F14, KC_F15,
         KC_ESC,   DM_PLY1,DM_PLY2,KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,KC_MUTE,KC_VOLD,KC_VOLU,KC_EJCT,          KC_F16, KC_F17, KC_F18,     KC_F22,   KC_F23,   KC_F24,  KC_TRNS,
         KC_TRNS,    KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,U_ARG,KC_TRNS,I_TS,KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,             KC_F19, KC_F20, KC_F21,     KC_TRNS, KC_TRNS,  KC_TRNS,  KC_TRNS,
         QK_LOCK,      ALL_U,KC_TRNS,KC_TRNS,KC_TRNS,G_GN,KC_TRNS,J_UST, KC_TRNS,  KC_TRNS,  KC_TRNS, KC_TRNS, KC_TRNS,                                          KC_TRNS, KC_TRNS,  KC_TRNS,
         KC_TRNS,         KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,KC_TRNS, KC_TRNS,  KC_TRNS,       KC_TRNS,               DM_REC1, DM_REC2,  DM_RSTP,  KC_TRNS,
-        KC_TRNS,  RSTGPU, KC_TRNS,                KC_TRNS,                        KC_APP, TOGG_RA, KC_TRNS, NK_TOGG,            KC_TRNS, KC_TRNS, KC_TRNS,        KC_TRNS,      KC_TRNS
-    )
+        KC_TRNS,  RSTGPU, KC_TRNS,                 MO(_CT),                       KC_APP, TOGG_RA, KC_TRNS, NK_TOGG,            KC_TRNS, KC_TRNS, KC_TRNS,        KC_TRNS,      KC_TRNS
+                                 ),
+    [_CT] = LAYOUT_fullsize_ansi(
+        KC_TRNS,     KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,     KC_TRNS, KC_TRNS, KC_TRNS,
+
+        KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,    KC_TRNS,  KC_TRNS, KC_TRNS,    KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
+        KC_TRNS,  KC_TRNS, KC_TRNS, EE_CLR, QK_BOOT, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,    KC_TRNS,  KC_TRNS, KC_TRNS,    KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
+        KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,                                            KC_TRNS, KC_TRNS, KC_TRNS,
+        KC_TRNS,    KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, QK_RBT, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,  KC_TRNS, KC_TRNS,                             KC_TRNS,             KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
+        KC_TRNS, KC_TRNS, KC_TRNS,                            KC_TRNS,                             KC_TRNS, KC_TRNS, KC_TRNS,  KC_TRNS,   KC_TRNS, KC_TRNS, KC_TRNS,    KC_TRNS,            KC_TRNS
+                                 )
 };
 
 #define DEF_MACRO_KEY(code, str) case code: \
