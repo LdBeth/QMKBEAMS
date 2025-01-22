@@ -36,8 +36,8 @@ static void update_key(uint8_t keycode, bool press) {
 
 bool process_socd_cleaner(uint16_t keycode, keyrecord_t* record,
                           socd_cleaner_t* state) {
-  if (!(state->resolution &&
-        (keycode == state->keys[0] || keycode == state->keys[1]))) {
+  if (!state->resolution ||
+      !(keycode == state->keys[0] || keycode == state->keys[1])) {
     return true;  // Quick return when disabled or on unrelated events.
   }
   // The current event corresponds to index `i`, 0 or 1, in the SOCD key pair.

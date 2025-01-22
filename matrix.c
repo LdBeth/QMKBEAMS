@@ -773,8 +773,8 @@ kb_config_t kb_config;
 #endif
 
 bool process_record_kb(uint16_t keycode, keyrecord_t *record) {
-    switch (keycode) {
 #ifdef NUMLOCK_SELECTS_LAYER1
+    switch (keycode) {
         case 0x5DFD:
             if (record->event.pressed) {
                 kb_config.numlock_off_at_boot ^= 1;
@@ -792,11 +792,10 @@ bool process_record_kb(uint16_t keycode, keyrecord_t *record) {
                 }
             }
             break;
-#endif
         default:
             break;
     }
-
+#endif
     return process_record_user(keycode, record);
 }
 

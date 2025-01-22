@@ -61,8 +61,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                  )
 };
 
-socd_cleaner_t socd_v = {{KC_W, KC_S}, SOCD_CLEANER_LAST};
-socd_cleaner_t socd_h = {{KC_A, KC_D}, SOCD_CLEANER_LAST};
+socd_cleaner_t socd_a = {{KC_LEFT, KC_RGHT}, SOCD_CLEANER_LAST};
+socd_cleaner_t socd_w = {{KC_A, KC_D}, SOCD_CLEANER_LAST};
 
 #define DEF_MACRO_KEY(code, str) case code: \
     if (record->event.pressed) { \
@@ -100,8 +100,8 @@ static bool socd_cleaner_enabled = false;
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   if (socd_cleaner_enabled) {
-    if (!process_socd_cleaner(keycode, record, &socd_v)) return false;
-    if (!process_socd_cleaner(keycode, record, &socd_h)) return false;
+    if (!process_socd_cleaner(keycode, record, &socd_a)) return false;
+    if (!process_socd_cleaner(keycode, record, &socd_w)) return false;
   }
 
   switch (keycode) {
