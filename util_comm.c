@@ -34,6 +34,8 @@
 
 extern const char PROGMEM KEYBOARD_FILENAME[]; // This must be defined in keyboard_name.c to equal the filename. This is sent back to the PC-side software for it to determine which keyboard we are using.
 
+#ifdef RAW_ENABLE
+
 static const uint8_t magic[] = UTIL_COMM_MAGIC;
 
 void raw_hid_receive_kb(uint8_t *data, uint8_t length) {
@@ -228,3 +230,5 @@ void raw_hid_receive_kb(uint8_t *data, uint8_t length) {
     }
     raw_hid_send(response, sizeof(response));
 }
+
+#endif
