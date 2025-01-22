@@ -17,7 +17,7 @@
 #include "beamspringr1.h"
 #include <progmem.h>
 
-const char PROGMEM KEYBOARD_FILENAME[] = __FILE__; // used by util_comm
+const char PROGMEM KEYBOARD_FILENAME[] = "wcass.c"; // used by util_comm
 
 #ifdef NUMLOCK_SELECTS_LAYER1
 void keyboard_post_init_kb_sub(void)
