@@ -82,12 +82,12 @@ static const uint8_t REP_DELAY_MS[] PROGMEM = {
     } else if (!token) {                                                \
       tap_code(key);                                                    \
       rep_count = 0;                                                    \
-      uint32_t cb##_callback(uint32_t trigger_time, void* cb_arg) {     \
+      uint32_t cb ## _callback(uint32_t trigger_time, void* cb_arg) {   \
         tap_code(key);                                                  \
         if (rep_count < sizeof(REP_DELAY_MS)) { ++rep_count; }          \
         return pgm_read_byte(REP_DELAY_MS - 1 + rep_count);             \
       }                                                                 \
-      token = defer_exec(INIT_DELAY_MS, cb##_callback, NULL);           \
+      token = defer_exec(INIT_DELAY_MS, cb ## _callback, NULL);         \
     }                                                                   \
   } return false
 
