@@ -73,6 +73,25 @@ static const uint8_t REP_DELAY_MS[] PROGMEM = {
   99, 79, 65, 57, 49, 43, 40, 35, 33, 30, 28, 26, 25, 23, 22, 20,
   20, 19, 18, 17, 16, 15, 15, 14, 14, 13, 13, 12, 12, 11, 11, 10};
 
+#define DEF_SPEED_KEY(key,cb) case key: {                               \
+    static deferred_token token = INVALID_DEFERRED_TOKEN;               \
+    static uint8_t rep_count = 0;                                       \
+    if (!record->event.pressed) {                                       \
+      cancel_deferred_exec(token);                                      \
+      token = INVALID_DEFERRED_TOKEN;                                   \
+    } else if (!token) {                                                \
+      tap_code(key);                                                    \
+      rep_count = 0;                                                    \
+      uint32_t cb##_callback(uint32_t trigger_time, void* cb_arg) {     \
+        tap_code(key);                                                  \
+        if (rep_count < sizeof(REP_DELAY_MS)) { ++rep_count; }          \
+        return pgm_read_byte(REP_DELAY_MS - 1 + rep_count);             \
+      }                                                                 \
+      token = defer_exec(INIT_DELAY_MS, cb##_callback, NULL);           \
+    }                                                                   \
+  } return false
+
+
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   switch (keycode) {
     DEF_MACRO_KEY(ALL_U,"allyourbasearebelongtous");
@@ -91,46 +110,10 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       return false;
     }
     break;
-  case KC_BSPC: {  // Key with exponential repeating.
-    static deferred_token token = INVALID_DEFERRED_TOKEN;
-    static uint8_t rep_count = 0;
 
-    if (!record->event.pressed) {  // Backspace released: stop repeating.
-      cancel_deferred_exec(token);
-      token = INVALID_DEFERRED_TOKEN;
-    } else if (!token) {  // Backspace pressed: start repeating.
-      tap_code(KC_BSPC);  // Initial tap of Backspace key.
-      rep_count = 0;
+    DEF_SPEED_KEY(KC_BSPC, bspc);
+    DEF_SPEED_KEY(KC_ENT, entr);
 
-      uint32_t bspc_callback(uint32_t trigger_time, void* cb_arg) {
-        tap_code(KC_BSPC);
-        if (rep_count < sizeof(REP_DELAY_MS)) { ++rep_count; }
-        return pgm_read_byte(REP_DELAY_MS - 1 + rep_count);
-      }
-
-      token = defer_exec(INIT_DELAY_MS, bspc_callback, NULL);
-    }
-  } return false;  // Skip normal handling.
-  case KC_ENT: {  // Enter Key with exponential repeating.
-    static deferred_token token = INVALID_DEFERRED_TOKEN;
-    static uint8_t rep_count = 0;
-
-    if (!record->event.pressed) {
-      cancel_deferred_exec(token);
-      token = INVALID_DEFERRED_TOKEN;
-    } else if (!token) {
-      tap_code(KC_ENT);
-      rep_count = 0;
-
-      uint32_t entr_callback(uint32_t trigger_time, void* cb_arg) {
-        tap_code(KC_ENT);
-        if (rep_count < sizeof(REP_DELAY_MS)) { ++rep_count; }
-        return pgm_read_byte(REP_DELAY_MS - 1 + rep_count);
-      }
-
-      token = defer_exec(INIT_DELAY_MS, entr_callback, NULL);
-    }
-  } return false;  // Skip normal handling.
   case WAVE: {  // Types ~=~=~=~=~=~...
     static deferred_token token = INVALID_DEFERRED_TOKEN;
     static uint8_t phase = 0;
