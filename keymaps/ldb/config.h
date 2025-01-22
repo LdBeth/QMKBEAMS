@@ -19,5 +19,8 @@
 // place overrides here
 #define DYNAMIC_MACRO_NO_NESTING
 // higher would brick controller
-#define DYNAMIC_MACRO_SIZE 32
+#define DYNAMIC_MACRO_SIZE 40
 #define FORCE_NKRO
+
+#define NO_ACTION_TAPPING
+#define NO_ACTION_ONESHOT
