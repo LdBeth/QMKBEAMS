@@ -30,12 +30,6 @@ RAW_ENABLE = no # Does not work yet
 
 LTO_ENABLE = yes
 
-# TAP_DANCE_ENABLE = no
-# COMBO_ENABLE = no
-DYNAMIC_MACRO_ENABLE = yes
-KEY_LOCK_ENABLE = yes
-DEFERRED_EXEC_ENABLE = yes
-
 CUSTOM_MATRIX=lite
 SRC += matrix.c util_comm.c
 #HAPTIC_ENABLE += SOLENOID

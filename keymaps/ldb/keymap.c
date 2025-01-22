@@ -14,6 +14,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include QMK_KEYBOARD_H
+#include "features/socd_cleaner.h"
 
 // Defines names for use in layer keycodes and the keymap
 enum layer_names {
@@ -25,7 +26,8 @@ enum layer_names {
 enum custom_keycodes {
     ALL_U = SAFE_RANGE,
     U_ARG, J_UST, I_TS, G_GN, F_FF,
-    TOGG_RA, WAVE
+    TOGG_RA, WAVE,
+    SOCDON, SOCDOFF
 };
 
 #define RSTGPU LGUI(LCTL(LSFT(KC_B)))
@@ -53,11 +55,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
         KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,    KC_TRNS,  KC_TRNS, KC_TRNS,    KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
         KC_TRNS,  KC_TRNS, KC_TRNS, EE_CLR, QK_BOOT, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,    KC_TRNS,  KC_TRNS, KC_TRNS,    KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
-        KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,                                            KC_TRNS, KC_TRNS, KC_TRNS,
-        KC_TRNS,    KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, QK_RBT, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,  KC_TRNS, KC_TRNS,                             KC_TRNS,             KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
+        KC_TRNS, KC_TRNS,  SOCDON, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,                                            KC_TRNS, KC_TRNS, KC_TRNS,
+        KC_TRNS,    KC_TRNS, SOCDOFF, KC_TRNS, KC_TRNS, QK_RBT, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,  KC_TRNS, KC_TRNS,                             KC_TRNS,             KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
         KC_TRNS, KC_TRNS, KC_TRNS,                            KC_TRNS,                             KC_TRNS, KC_TRNS, KC_TRNS,  KC_TRNS,   KC_TRNS, KC_TRNS, KC_TRNS,    KC_TRNS,            KC_TRNS
                                  )
 };
+
+socd_cleaner_t socd_v = {{KC_W, KC_S}, SOCD_CLEANER_LAST};
+socd_cleaner_t socd_h = {{KC_A, KC_D}, SOCD_CLEANER_LAST};
 
 #define DEF_MACRO_KEY(code, str) case code: \
     if (record->event.pressed) { \
@@ -93,12 +98,18 @@ static const uint8_t REP_DELAY_MS[] PROGMEM = {
 
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+  if (!process_socd_cleaner(keycode, record, &socd_v)) { return false; }
+  if (!process_socd_cleaner(keycode, record, &socd_h)) { return false; }
+
   switch (keycode) {
+    DEF_SPEED_KEY(KC_BSPC, bspc);
+    DEF_SPEED_KEY(KC_ENT, entr);
+
     DEF_MACRO_KEY(ALL_U,"allyourbasearebelongtous");
     DEF_MACRO_KEY(U_ARG,"yourargumentisinvalid");
     DEF_MACRO_KEY(J_UST,"justaccordingtokeikaku");
-    DEF_MACRO_KEY(G_GN,"goodnightsweetprince");
     DEF_MACRO_KEY(I_TS,"itsmorelikelythanyouthink");
+    DEF_MACRO_KEY(G_GN,"goodnightsweetprince");
     DEF_MACRO_KEY(F_FF,"pressftopayrespects");
   case TOGG_RA:
     if (record->event.pressed) {
@@ -110,10 +121,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       return false;
     }
     break;
-
-    DEF_SPEED_KEY(KC_BSPC, bspc);
-    DEF_SPEED_KEY(KC_ENT, entr);
-
   case WAVE: {  // Types ~=~=~=~=~=~...
     static deferred_token token = INVALID_DEFERRED_TOKEN;
     static uint8_t phase = 0;
@@ -134,6 +141,16 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       token = defer_exec(1, wave_callback, NULL);
     }
   } return false;
+  case SOCDON:  // Turn SOCD Cleaner on.
+    if (record->event.pressed) {
+      socd_cleaner_enabled = true;
+    }
+    return false;
+  case SOCDOFF:  // Turn SOCD Cleaner off.
+    if (record->event.pressed) {
+      socd_cleaner_enabled = false;
+    }
+    return false;
   }
   return true;
 }
