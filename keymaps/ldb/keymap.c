@@ -65,7 +65,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     } else { } break
 
 // Initial delay before the first repeat.
-static const uint8_t INIT_DELAY_MS = 250;
+#define INIT_DELAY_MS 300
 // This array customizes the rate at which the Backspace key
 // repeats. The delay after the ith repeat is REP_DELAY_MS[i].
 // Values must be between 1 and 255.
@@ -145,7 +145,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
       uint32_t wave_callback(uint32_t trigger_time, void* cb_arg) {
         tap_code16((++phase & 1) ? KC_TILD : KC_EQL);
-        return 16;  // Call the callback every 16 ms.
+        return 30;
       }
 
       token = defer_exec(1, wave_callback, NULL);
