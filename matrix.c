@@ -565,14 +565,20 @@ uint16_t calibration_measure_all_valid_keys(uint8_t time, uint8_t reps, bool loo
 
 uint16_t cal_thresholds[CAPSENSE_CAL_BINS];
 matrix_row_t assigned_to_threshold[CAPSENSE_CAL_BINS][MATRIX_CAPSENSE_ROWS];
-uint16_t cal_tr_allzero;
-uint16_t cal_tr_allone;
+#ifndef NO_PRINT
+static uint16_t cal_tr_allzero;
+static uint16_t cal_tr_allone;
+#endif
 void calibration(void)
 {
     uint16_t cal_thresholds_max[CAPSENSE_CAL_BINS];
     uint16_t cal_thresholds_min[CAPSENSE_CAL_BINS];
     memset(cal_thresholds_max, 0xff, sizeof(cal_thresholds_max));
     memset(cal_thresholds_min, 0xff, sizeof(cal_thresholds_min));
+#ifdef NO_PRINT
+    uint16_t cal_tr_allzero;
+    uint16_t cal_tr_allone;
+#endif
     cal_tr_allzero = calibration_measure_all_valid_keys(CAPSENSE_HARDCODED_SAMPLE_TIME, CAPSENSE_CAL_INIT_REPS, true);
     cal_tr_allone = calibration_measure_all_valid_keys(CAPSENSE_HARDCODED_SAMPLE_TIME, CAPSENSE_CAL_INIT_REPS, false);
     uint16_t max = (cal_tr_allzero == 0) ? 0 : (cal_tr_allzero - 1);
