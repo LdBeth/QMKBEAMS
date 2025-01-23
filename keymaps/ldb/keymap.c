@@ -44,10 +44,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                    ),
     [_FN] = LAYOUT_fullsize_ansi(
         KC_TRNS,    KC_BRID, KC_BRIU, KC_TRNS, KC_TRNS,  KC_MSTP, KC_MPRV, KC_MPLY, KC_MNXT,  KC_WBAK, KC_WFWD, KC_TRNS, KC_TRNS,   KC_F13, KC_F14, KC_F15,
-        WAVE,     DM_PLY1,DM_PLY2,KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,KC_MUTE,KC_VOLD,KC_VOLU,KC_EJCT,          KC_F16, KC_F17, KC_F18,     KC_F22,   KC_F23,   KC_F24,  KC_TRNS,
+        WAVE,     DM_PLY1,DM_PLY2,KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,KC_MUTE,KC_VOLD,KC_VOLU,DM_RSTP,          KC_F16, KC_F17, KC_F18,     KC_F22,   KC_F23,   KC_F24,  KC_TRNS,
         KC_TRNS,    KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,MEME_,KC_TRNS,MEME_,KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,            KC_F19, KC_F20, KC_F21,     KC_TRNS, KC_TRNS,  KC_TRNS,  KC_TRNS,
         QK_LOCK,      MEME_,KC_TRNS, KC_TRNS,MEME_,MEME_,KC_TRNS,MEME_, KC_TRNS,  KC_TRNS,  KC_TRNS, KC_TRNS, KC_TRNS,                                          KC_TRNS, KC_TRNS,  KC_TRNS,
-        KC_TRNS,         KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,KC_TRNS, KC_TRNS,  KC_TRNS,       KC_TRNS,               DM_REC1, DM_REC2,  DM_RSTP,  KC_TRNS,
+        KC_TRNS,         KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  MEME_,KC_TRNS,KC_TRNS, KC_TRNS,  KC_TRNS,           KC_TRNS,               DM_REC1, DM_REC2,  KC_TRNS,  KC_TRNS,
         KC_TRNS,  RSTGPU, KC_TRNS,                 MO(_CT),                       KC_APP, TOGG_RA, KC_TRNS, NK_TOGG,            KC_TRNS, KC_TRNS, KC_TRNS,        KC_TRNS,      KC_TRNS
                                  ),
     [_CT] = LAYOUT_fullsize_ansi(
@@ -70,18 +70,19 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [_FN] = LAYOUT_fullsize_ansi(
         KC_TRNS,    KC_F1, KC_F2, KC_F3, KC_F4,    KC_F5, KC_F6, KC_F7, KC_F8,     KC_F9, KC_F10, KC_F11, KC_F12,                        KC_F16, KC_F17, KC_F18,
 
+        KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_EJCT,    KC_TRNS,  KC_TRNS, KC_TRNS,    KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
         KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,    KC_TRNS,  KC_TRNS, KC_TRNS,    KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
-        KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,    KC_TRNS,  KC_TRNS, KC_TRNS,    KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
-        KC_TRNS, KC_TRNS,  KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,                                            KC_TRNS, KC_TRNS, KC_TRNS,
+        KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,                                            KC_TRNS, KC_TRNS, KC_TRNS,
         KC_TRNS,    KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,  KC_TRNS, KC_TRNS,                            KC_TRNS,             KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
-        KC_TRNS, PDF(_BASE), KC_TRNS,                         KC_TRNS,                             KC_TRNS, KC_TRNS, KC_TRNS,  KC_TRNS,   KC_TRNS, KC_TRNS, KC_TRNS,    KC_TRNS,            KC_TRNS
+        KC_TRNS, PDF(_BASE), KC_TRNS,                         KC_TRNS,                             KC_TRNS, KTOGG_RA, KC_TRNS,  KC_TRNS,   KC_TRNS, KC_TRNS, KC_TRNS,    KC_TRNS,            KC_TRNS
                                  )
 };
 
-socd_cleaner_t socd_a = {{KC_LEFT, KC_RGHT}, SOCD_CLEANER_LAST};
-socd_cleaner_t socd_w = {{KC_A, KC_D}, SOCD_CLEANER_LAST};
+socd_cleaner_t socd_v = {{KC_W, KC_S}, SOCD_CLEANER_NEUTRAL};
+socd_cleaner_t socd_h = {{KC_A, KC_D}, SOCD_CLEANER_LAST};
 
 #define DEF_MACRO_KEY(code, str) case code: SEND_STRING(str); break
+#define GET_ORIG_KEY(r) pgm_read_word(&keymaps[0][r->event.key.row][r->event.key.col])
 
 // Initial delay before the first repeat.
 #define INIT_DELAY_MS 300
@@ -114,8 +115,8 @@ static bool socd_cleaner_enabled = false;
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   if (socd_cleaner_enabled) {
-    if (!process_socd_cleaner(keycode, record, &socd_a)) return false;
-    if (!process_socd_cleaner(keycode, record, &socd_w)) return false;
+    if (!process_socd_cleaner(keycode, record, &socd_v)) return false;
+    if (!process_socd_cleaner(keycode, record, &socd_h)) return false;
   }
 
   switch (keycode) {
@@ -123,13 +124,14 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     DEF_SPEED_KEY(KC_ENT, entr);
   case MEME_:
     if (record->event.pressed) {
-      switch (pgm_read_word(&keymaps[0][record->event.key.row][record->event.key.col])) {
+      switch (GET_ORIG_KEY(record)) {
         DEF_MACRO_KEY(KC_A,"allyourbasearebelongtous");
         DEF_MACRO_KEY(KC_Y,"yourargumentisinvalid");
         DEF_MACRO_KEY(KC_J,"justaccordingtokeikaku");
         DEF_MACRO_KEY(KC_I,"itsmorelikelythanyouthink");
         DEF_MACRO_KEY(KC_G,"goodnightsweetprince");
         DEF_MACRO_KEY(KC_F,"pressftopayrespects");
+        DEF_MACRO_KEY(KC_M,"mykokoroisbrokoro");
       }
     } break;
   case TOGG_RA:
