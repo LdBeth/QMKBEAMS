@@ -80,8 +80,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                  )
 };
 
-socd_cleaner_t socd_v = {{KC_W, KC_S}, SOCD_CLEANER_NEUTRAL};
-socd_cleaner_t socd_h = {{KC_A, KC_D}, SOCD_CLEANER_LAST};
+socd_cleaner_t socd_v = {{{KC_W}, {KC_S}}, SOCD_CLEANER_NEUTRAL};
+socd_cleaner_t socd_h = {{{KC_A}, {KC_D}}, SOCD_CLEANER_LAST};
 
 #define DEF_MACRO_KEY(code, str) case code: SEND_STRING(str); break
 #define GET_ORIG_KEY(r) pgm_read_word(&keymaps[0][r->event.key.row][r->event.key.col])

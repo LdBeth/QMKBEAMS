@@ -117,10 +117,15 @@ enum socd_cleaner_resolution {
   SOCD_CLEANER_NUM_RESOLUTIONS,
 };
 
+// The fact is basic keycodes does not take full 8 bit
 typedef struct {
-  uint8_t keys[2];  // Basic keycodes for the two opposing keys.
+  uint8_t code : 7; // Basic keycodes for the two opposing keys.
+  bool held : 1; // Tracks which keys are physically held.
+} socd_key;
+
+typedef struct {
+  socd_key keys[2];
   uint8_t resolution;  // Resolution strategy.
-  bool held[2];  // Tracks which keys are physically held.
 } socd_cleaner_t;
 
 /**
