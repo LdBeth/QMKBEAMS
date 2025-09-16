@@ -20,7 +20,7 @@
 #define DYNAMIC_MACRO_NO_NESTING
 // higher would brick controller
 #define DYNAMIC_MACRO_SIZE 40
-#define FORCE_NKRO
+#define NKRO_DEFAULT_ON true
 
 #define NO_ACTION_TAPPING
 #define NO_ACTION_ONESHOT

@@ -139,10 +139,10 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     } break;
   case TOGG_RA:
     if (record->event.pressed) {
-      keymap_config.raw = eeconfig_read_keymap();
+      keymap_config.raw = eeconfig_read_kb();
       keymap_config.swap_ralt_rgui = !keymap_config.swap_ralt_rgui;
       keymap_config.swap_control_capslock = keymap_config.swap_ralt_rgui;
-      eeconfig_update_keymap(keymap_config.raw);
+      eeconfig_update_kb(keymap_config.raw);
       clear_keyboard();
       return false;
     }
